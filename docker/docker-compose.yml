@@ -1,5 +1,3 @@
-version: '3.6'
-
 volumes:
   particl_data:
   particlcore:
@@ -8,8 +6,8 @@ services:
   partyman:
     image: hub.hel.lan/partyman:2024-09-11_1
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
       args:
         - CONTAINER_TIMEZONE="Europe/UTC"
     command: bin/entrypoint.sh

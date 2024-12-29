@@ -27,12 +27,12 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 RUN ntpdate -q ntp.ubuntu.com
 
 WORKDIR /root
-RUN git clone https://github.com/dasource/partyman.git
+COPY . partyman
 
 WORKDIR /root/partyman
-COPY bin/entrypoint.sh bin/entrypoint.sh
-COPY bin/cron.sh bin/cron.sh
-COPY conf/crontab crontab
+COPY docker/bin/entrypoint.sh bin/entrypoint.sh
+COPY docker/bin/cron.sh bin/cron.sh
+COPY docker/conf/crontab crontab
 
 RUN ./partyman install unattended
 
