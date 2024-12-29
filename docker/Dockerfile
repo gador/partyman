@@ -1,18 +1,17 @@
-FROM ubuntu:18.04
-MAINTAINER Juha Kovanen <juha@particl.io>
+FROM ubuntu:24.04
 
-ARG CONTAINER_TIMEZONE=Europe/Helsinki
+ARG CONTAINER_TIMEZONE=UTC
 ENV PARTICL_DIR=/root/particlcore
 ENV PARTICL_DATADIR=/root/.particl
 ENV PARTYMAN_DIR=/root/partyman
 
 ENV PATH=${PARTYMAN_DIR}/bin:${PARTICL_DIR}:$PATH
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TERM xterm
+ENV TERM=xterm
 
 RUN apt-get update -y \
-    && apt-get install -y software-properties-common apt-utils wget curl net-tools iputils-ping ntp ntpdate python git \
-       unzip pv jq dnsutils netcat-openbsd locales cron php7.2 nano \
+    && apt-get install -y software-properties-common apt-utils wget curl net-tools iputils-ping ntp ntpdate python3 git \
+       unzip pv jq dnsutils netcat-openbsd locales cron php8.3 nano \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -28,15 +27,12 @@ RUN echo ${CONTAINER_TIMEZONE} >/etc/timezone && \
 RUN ntpdate -q ntp.ubuntu.com
 
 WORKDIR /root
-#RUN git clone https://github.com/xludx/partyman.git
 RUN git clone https://github.com/dasource/partyman.git
 
 WORKDIR /root/partyman
-#RUN git checkout dockerized
 COPY bin/entrypoint.sh bin/entrypoint.sh
 COPY bin/cron.sh bin/cron.sh
 COPY conf/crontab crontab
 
-#COPY ./data/particlcore /root/particlcore
 RUN ./partyman install unattended
 
