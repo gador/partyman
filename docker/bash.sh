@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 export NODE_ID=$(docker info -f '{{.Swarm.NodeID}}')
 if [ -z "$NODE_ID" ]; then
     bash -c "clear && docker exec -it docker_partyman_1 bash"
