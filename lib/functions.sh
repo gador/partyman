@@ -177,7 +177,7 @@ _check_dependencies() {
     # make sure we have the right netcat version (-4,-6 flags)
     if [ -n "$(type -P nc)" ]; then
 
-        if ! (nc -z -4 8.8.8.8 53 2>&1) >/dev/null
+        if ! (nc -z -4 -u 8.8.8.8 53 2>&1) >/dev/null
         then
             MISSING_DEPENDENCIES="${MISSING_DEPENDENCIES}netcat6 "
         fi
